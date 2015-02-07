@@ -5,12 +5,13 @@ var SIMPLE_TEST_OBJECT = {key1:'data', key2:10, key3:true, key4:undefined, key5:
 var TEST_100_PERCENT_CONSISTENT_ARRAY = [{name:'alice',age:23}, {name:'bob',age:32}, {name:'charlie',age:16}];
 var TEST_KEY_INCONSISTENT_ARRAY = [{name:'alice',age:23}, {firstname:'bob',age:32}, {name:'charlie',age:16}];
 var TEST_TYPE_INCONSISTENT_ARRAY = [{name:'alice',age:23}, {name:'bob',age:32}, {name:'charlie',age:'sixteen'}];
+var TEST_FILENAME = "test/testdata1.json";
+var TEST_FILENAME_WITH_SCHEME = "file://test/testdata1.json";
 
 describe("hashes", function() {
     it('should have valid metadata', function(){
         jmd.getMetadata(SIMPLE_TEST_OBJECT).then(function(metadata){
             should.exist(metadata);
-            metadata.should.not.be.empty;
             metadata.should.not.be.empty;
             metadata.should.have.property("schema");
             metadata.schema.should.have.property("key1");
@@ -81,6 +82,8 @@ describe("arrays", function() {
         jmd.getMetadata(TEST_KEY_INCONSISTENT_ARRAY).then(function(metadata){
             should.exist(metadata);
             metadata.should.not.be.empty;
+            metadata.should.have.property("meta");
+            metadata.meta.should.not.be.empty;
             metadata.meta.should.have.property("consistency");
             metadata.meta.consistency.should.not.be.empty;
             metadata.meta.consistency.should.have.property("name");
@@ -114,6 +117,8 @@ describe("arrays", function() {
         jmd.getMetadata(TEST_TYPE_INCONSISTENT_ARRAY).then(function(metadata){
             should.exist(metadata);
             metadata.should.not.be.empty;
+            metadata.should.have.property("meta");
+            metadata.meta.should.not.be.empty;
             metadata.meta.should.have.property("consistency");
             metadata.meta.consistency.should.not.be.empty;
             metadata.meta.consistency.should.have.property("name");
@@ -149,3 +154,105 @@ describe("arrays", function() {
         }).done();
     });
 });
+
+describe("local JSON file", function() {
+    it('should have valid metadata if no URI scheme is specified', function(done){
+        jmd.getMetadata(TEST_FILENAME).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.should.have.property("meta");
+            metadata.meta.should.not.be.empty;
+            metadata.meta.should.have.property("consistency");
+            metadata.meta.consistency.should.not.be.empty;
+            metadata.meta.consistency.should.not.be.empty;
+            metadata.meta.consistency.should.have.property("name");
+            metadata.meta.consistency.name.should.not.be.empty;
+            metadata.meta.consistency.name.should.have.property("keys");
+            metadata.meta.consistency.name.keys.should.not.be.empty;
+            metadata.meta.consistency.name.keys.should.have.property("count");
+            metadata.meta.consistency.name.keys.should.have.property("consistency");
+            metadata.meta.consistency.name.keys.consistency.should.equal(1);
+            metadata.meta.consistency.name.should.have.property("types");
+            metadata.meta.consistency.name.types.should.not.be.empty;
+            metadata.meta.consistency.name.types.should.have.property("count");
+            metadata.meta.consistency.name.types.should.have.property("consistency");
+            metadata.meta.consistency.name.types.consistency.should.equal(1);
+            metadata.meta.consistency.should.have.property("age");
+            metadata.meta.consistency.age.should.not.be.empty;
+            metadata.meta.consistency.age.should.have.property("keys");
+            metadata.meta.consistency.age.keys.should.not.be.empty;
+            metadata.meta.consistency.age.keys.should.have.property("count");
+            metadata.meta.consistency.age.keys.should.have.property("consistency");
+            metadata.meta.consistency.age.keys.consistency.should.equal(1);
+            metadata.meta.consistency.age.should.have.property("types");
+            metadata.meta.consistency.age.types.should.not.be.empty;
+            metadata.meta.consistency.age.types.should.have.property("count");
+            metadata.meta.consistency.age.types.should.have.property("consistency");
+            metadata.meta.consistency.age.types.consistency.should.equal(1);
+            metadata.should.have.property("comments");
+            metadata.comments.should.contain("100% consistent");
+            done();
+        }).done();
+    });
+    it('should have valid metadata if file:// URI scheme is specified', function(done){
+        jmd.getMetadata(TEST_FILENAME_WITH_SCHEME).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.should.have.property("meta");
+            metadata.meta.should.not.be.empty;
+            metadata.meta.should.have.property("consistency");
+            metadata.meta.consistency.should.not.be.empty;
+            metadata.meta.consistency.should.not.be.empty;
+            metadata.meta.consistency.should.have.property("name");
+            metadata.meta.consistency.name.should.not.be.empty;
+            metadata.meta.consistency.name.should.have.property("keys");
+            metadata.meta.consistency.name.keys.should.not.be.empty;
+            metadata.meta.consistency.name.keys.should.have.property("count");
+            metadata.meta.consistency.name.keys.should.have.property("consistency");
+            metadata.meta.consistency.name.keys.consistency.should.equal(1);
+            metadata.meta.consistency.name.should.have.property("types");
+            metadata.meta.consistency.name.types.should.not.be.empty;
+            metadata.meta.consistency.name.types.should.have.property("count");
+            metadata.meta.consistency.name.types.should.have.property("consistency");
+            metadata.meta.consistency.name.types.consistency.should.equal(1);
+            metadata.meta.consistency.should.have.property("age");
+            metadata.meta.consistency.age.should.not.be.empty;
+            metadata.meta.consistency.age.should.have.property("keys");
+            metadata.meta.consistency.age.keys.should.not.be.empty;
+            metadata.meta.consistency.age.keys.should.have.property("count");
+            metadata.meta.consistency.age.keys.should.have.property("consistency");
+            metadata.meta.consistency.age.keys.consistency.should.equal(1);
+            metadata.meta.consistency.age.should.have.property("types");
+            metadata.meta.consistency.age.types.should.not.be.empty;
+            metadata.meta.consistency.age.types.should.have.property("count");
+            metadata.meta.consistency.age.types.should.have.property("consistency");
+            metadata.meta.consistency.age.types.consistency.should.equal(1);
+            metadata.should.have.property("comments");
+            metadata.comments.should.contain("100% consistent");
+            done();
+        }).done();
+    });
+});
+
+describe("shortcuts", function() {
+    it('get schema', function(done){
+        jmd.getMetadata(TEST_FILENAME).get("schema").then(function(schema){ 
+            should.exist(schema);
+            schema.should.not.be.empty;
+            schema.should.have.property("name");
+            schema.name.should.equal("string");
+            schema.should.have.property("age");
+            schema.age.should.equal("number");
+            done(); 
+        }).done();
+    });
+    it('get consistency', function(done){
+        jmd.getMetadata(TEST_FILENAME).get("meta").get("consistency").then(function(consistency){ 
+            should.exist(consistency);
+            consistency.should.not.be.empty;
+            consistency.should.have.property("name");
+            consistency.should.have.property("age");
+            done(); 
+        }).done();
+    });
+})
