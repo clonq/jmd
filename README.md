@@ -132,7 +132,7 @@ In this case the value type of the `age` key of the last element is inconsistent
 }
 ```
 
-###Local Files
+### Local Files
 jmd can load datasets directly from a local file as well. Just provide the filename as an argument to getMetadata. Here's how you can print the schema extracted from a local file:
 
 ```
@@ -140,6 +140,9 @@ require('jmd').getMetadata("mydata.json").get("schema").then(console.log);
 ```
 
 
-###HTTP/FTP
+### HTTP
+TODO
+
+### FTP
 TODO
 
