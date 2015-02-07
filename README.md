@@ -1,4 +1,4 @@
-# jmd
+# jmd - JSON metadata
 
 jmd extracts metadata information from data sets in JSON format.
 
