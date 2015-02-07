@@ -1,17 +1,20 @@
 {
   "name": "jmd",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "extracts metadata from json datasets",
   "scripts": {
     "test": "mocha --reporter spec"
   },
-  "main": "index",
-  "engines": {
-    "node": "*"
+  "dependencies": {
+    "q": "~1.1.2"
   },
   "devDependencies": {
     "mocha": "~2.1.0",
     "chai": "~1.10.0"
+  },
+  "main": "index",
+  "engines": {
+    "node": "*"
   },
   "author": {
     "name": "Ovi Comes"
