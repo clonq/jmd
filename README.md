@@ -1,8 +1,8 @@
 # jmd
 
-JMD extracts metadata information form data sets in JSON format. You can pass a JSON object, a path to a local file or an URL to a JSON feed. 
+JMD extracts metadata information from data sets in JSON format. You can pass an object, a path to a local file or an URL to a JSON feed. 
 
-###Simple Objects
+###Simple Hashes
 
 Given a simple hash: 
 
