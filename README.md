@@ -61,7 +61,7 @@ and meta information about key names and value types consistency at data field l
 }
 ``` 
 
-The consistency information shows that both data fields found in the common object definition, are 100% consistent across all entries, keys and types wise.
+The consistency information shows that both data fields found in the common object definition are 100% consistent across all entries, keys and types wise.
 
 #### Inconsistent Arrays
 
@@ -97,7 +97,7 @@ Here's a type-inconsistent array example:
 
 `[{name:'alice',age:23}, {name:'bob',age:32}, {name:'charlie',age:'sixteen'}]`
 
-In this case the `age` key of the last element is inconsistent with the previous two values: string respectively number. The output becomes now: 
+In this case the value type of the `age` key of the last element is inconsistent with the previous two values: string respectively number. The output becomes now: 
 
 ```
 {
