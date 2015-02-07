@@ -2,11 +2,28 @@
 
 JMD extracts metadata information from data sets in JSON format. You can pass an object, a path to a local file or an URL to a JSON feed. 
 
+###Installation
+
+npm install jdm 
+
+###Usage
+
+jmd returns a promise 
+
+```
+var jmd = require('jmd')
+jmd.getMetadata({ke1:"value1}).then(function(metadata){
+	// schema info available here 
+});
+```
+
+
 ###Simple Hashes
 
 Given a simple hash: 
 
-```{
+```
+{
 	key1: 'text',
 	key2: 10,
 	key3: true,
@@ -14,7 +31,8 @@ Given a simple hash:
 	key5: new Date(),
 	key6: [1,2,3],
 	key7: null
-}```
+}
+```
 
 jmd returns this metadata object:
 
@@ -115,8 +133,13 @@ In this case the value type of the `age` key of the last element is inconsistent
 ```
 
 ###Local Files
-TODO
+jmd can load datasets directly from a local file as well. Just provide the filename as an argument to getMetadata. Here's how you can print the schema extracted from a local file:
 
-###URLs
+```
+require('jmd').getMetadata("mydata.json").get("schema").then(console.log);
+```
+
+
+###HTTP/FTP
 TODO
 
