@@ -1,14 +1,15 @@
-# jmd
+# jmd - JSON metadata
 
-JMD extracts metadata information from data sets in JSON format. You can pass an object, a path to a local file or an URL to a JSON feed. 
+jmd extracts metadata information from data sets in JSON format.
 
-###Installation
+### Installation
 
 npm install jdm 
 
-###Usage
+### Usage
 
-jmd returns a promise 
+
+jmd takes a datasource as argument and returns a promise. The datasource can be a simple hash, an array, a local or a remote file. 
 
 ```
 var jmd = require('jmd')
@@ -18,7 +19,7 @@ jmd.getMetadata({ke1:"value1}).then(function(metadata){
 ```
 
 
-###Simple Hashes
+### Simple Hashes
 
 Given a simple hash: 
 
@@ -50,7 +51,7 @@ jmd returns this metadata object:
 }
 ```
 
-###Arrays
+### Arrays
 Since there is no guarantee that all the elements in an array are of the same type, jmd analyses the data in the array and returns the best schema as well as data consistency information.
 
 #### Consistent Arrays
@@ -139,7 +140,6 @@ jmd can load datasets directly from a local file as well. Just provide the filen
 require('jmd').getMetadata("mydata.json").get("schema").then(console.log);
 ```
 
-
 ### HTTP
 Loading remote datasets over HTTP is as simple as providing the URL of the remote JSON resource:
 
@@ -152,5 +152,6 @@ jmd.getMetadata("http://example.com/test.json").then(function(metadata){
 ```
 
 ### FTP
+
 TODO
 
