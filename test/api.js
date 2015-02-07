@@ -73,6 +73,8 @@ describe("arrays", function() {
             metadata.meta.consistency.age.types.count.should.equal(TEST_100_PERCENT_CONSISTENT_ARRAY.length+" out of "+TEST_100_PERCENT_CONSISTENT_ARRAY.length);
             metadata.meta.consistency.age.types.should.have.property("consistency");
             metadata.meta.consistency.age.types.consistency.should.equal(1);
+            metadata.should.have.property("comments");
+            metadata.comments.should.contain("100% consistent");
         }).done();            
     });
     it('should have valid metadata if they are key-inconsistent', function(){
@@ -104,6 +106,8 @@ describe("arrays", function() {
             metadata.meta.consistency.age.types.count.should.equal(TEST_KEY_INCONSISTENT_ARRAY.length+" out of "+TEST_KEY_INCONSISTENT_ARRAY.length);
             metadata.meta.consistency.age.types.should.have.property("consistency");
             metadata.meta.consistency.age.types.consistency.should.equal(1);
+            metadata.should.have.property("comments");
+            metadata.comments.should.contain("inconsistent key names wise");
         }).done();
     });
     it('should have valid metadata if they are type-inconsistent', function(){
@@ -140,6 +144,8 @@ describe("arrays", function() {
             metadata.meta.consistency.age.types.count.should.equal(TEST_TYPE_INCONSISTENT_ARRAY.length-1+" out of "+TEST_TYPE_INCONSISTENT_ARRAY.length);
             metadata.meta.consistency.age.types.should.have.property("consistency");
             metadata.meta.consistency.age.types.consistency.should.equal(0.6666666666666666);
+            metadata.should.have.property("comments");
+            metadata.comments.should.contain("inconsistent value types wise");
         }).done();
     });
 });
