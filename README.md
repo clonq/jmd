@@ -62,7 +62,7 @@ and meta information about key names and value types consistency at data field l
 }
 ``` 
 
-The consistency information shows that both data fields found in the common object definition, are 100% consistent accross all entries, keys and types wise.
+The consistency information shows that both data fields found in the common object definition, are 100% consistent across all entries, keys and types wise.
 
 #### Inconsistent Arrays
 
@@ -71,7 +71,7 @@ For example, the following array is key-inconsistent:
 
 `[{name:'alice',age:23}, {firstname:'bob',age:32}, {name:'charlie',age:16}]`
 
-since not all the keys are the same accross the elements of the array - the second element has a `firstname` key while the other two elements have a `name` key. The other key `age` is present in all the elements.
+since not all the keys are the same across the elements of the array - the second element has a `firstname` key while the other two elements have a `name` key. The other key `age` is present in all the elements.
 
 In this case jmd output will be:
 
@@ -92,13 +92,13 @@ In this case jmd output will be:
 }
 ```
 
-Only the common keys are extracted in the schema and the per-field consistency information is adjusted accordingly. Note the missing `types` entry in the case of the `name` field as type consistency becomes irrelevant in the context of a key-incosistent field.
+Only the common keys are extracted in the schema and the per-field consistency information is adjusted accordingly. Note the missing `types` entry in the case of the `name` field as type consistency becomes irrelevant in the context of a key-inconsistent field.
 
 Here's a type-inconsistent array example:
 
 `[{name:'alice',age:23}, {name:'bob',age:32}, {name:'charlie',age:'sixteen'}]`
 
-In this case the `age` key of the last element is inconsistent with the previoious two values: string respectively number. The output becomes now: 
+In this case the `age` key of the last element is inconsistent with the previous two values: string respectively number. The output becomes now: 
 
 ```
 {
