@@ -7,6 +7,7 @@ var TEST_KEY_INCONSISTENT_ARRAY = [{name:'alice',age:23}, {firstname:'bob',age:3
 var TEST_TYPE_INCONSISTENT_ARRAY = [{name:'alice',age:23}, {name:'bob',age:32}, {name:'charlie',age:'sixteen'}];
 var TEST_FILENAME = "test/testdata1.json";
 var TEST_FILENAME_WITH_SCHEME = "file://test/testdata1.json";
+var TEST_HTTP = {URL: "http://ckannet-storage.commondatastorage.googleapis.com/2015-01-02T17:56:56.968Z/atoz.json", pathToArray:"AtoZ.sites.site"}
 
 describe("hashes", function() {
     it('should have valid metadata', function(){
@@ -233,6 +234,21 @@ describe("local JSON file", function() {
         }).done();
     });
 });
+
+describe("HTTP JSON", function() {
+    it('should have valid metadata', function(done){
+        jmd.getMetadata(TEST_HTTP.URL, {path:TEST_HTTP.pathToArray}).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.should.have.property("schema");
+            metadata.schema.should.not.be.empty;
+            metadata.schema.should.have.property("name");
+            metadata.schema.name.should.equal("string");
+            done();
+        }).done();
+    });
+});
+
 
 describe("shortcuts", function() {
     it('get schema', function(done){

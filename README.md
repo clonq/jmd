@@ -140,7 +140,18 @@ jmd can load datasets directly from a local file as well. Just provide the filen
 require('jmd').getMetadata("mydata.json").get("schema").then(console.log);
 ```
 
+### HTTP
+Loading remote datasets over HTTP is as simple as providing the URL of the remote JSON resource:
 
-### HTTP/FTP
+```
+var jmd = require('jmd');
+
+jmd.getMetadata("http://example.com/test.json").then(function(metadata){
+	//... 
+}
+```
+
+### FTP
+
 TODO
 
