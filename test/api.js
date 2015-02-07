@@ -1,27 +1,145 @@
 var should = require('chai').should();
 var jmd = require('../index')
 
-var SIMPLE_TEST_OBJECT = {key1:'data', key2:10, key3:true, key4:undefined, key5:new Date(), key6:[1,2,3], key7:null}
+var SIMPLE_TEST_OBJECT = {key1:'data', key2:10, key3:true, key4:undefined, key5:new Date(), key6:[1,2,3], key7:null};
+var TEST_100_PERCENT_CONSISTENT_ARRAY = [{name:'alice',age:23}, {name:'bob',age:32}, {name:'charlie',age:16}];
+var TEST_KEY_INCONSISTENT_ARRAY = [{name:'alice',age:23}, {firstname:'bob',age:32}, {name:'charlie',age:16}];
+var TEST_TYPE_INCONSISTENT_ARRAY = [{name:'alice',age:23}, {name:'bob',age:32}, {name:'charlie',age:'sixteen'}];
 
-describe("api", function() {
-    it('should return a valid metadata object for a simple object', function(){
+describe("hashes", function() {
+    it('should have valid metadata', function(){
         jmd.getMetadata(SIMPLE_TEST_OBJECT).then(function(metadata){
             should.exist(metadata);
             metadata.should.not.be.empty;
-            metadata.should.have.property("key1");
-            metadata.key1.should.equal("string");
-            metadata.should.have.property("key2");
-            metadata.key2.should.equal("number");
-            metadata.should.have.property("key3");
-            metadata.key3.should.equal("boolean");
-            metadata.should.have.property("key4");
-            metadata.key4.should.equal("undefined");
-            metadata.should.have.property("key5");
-            metadata.key5.should.equal("date");
-            metadata.should.have.property("key6");
-            metadata.key6.should.equal("array");
-            metadata.should.have.property("key7");
-            metadata.key7.should.equal("null");
+            metadata.should.not.be.empty;
+            metadata.should.have.property("schema");
+            metadata.schema.should.have.property("key1");
+            metadata.schema.key1.should.equal("string");
+            metadata.schema.should.have.property("key2");
+            metadata.schema.key2.should.equal("number");
+            metadata.schema.should.have.property("key3");
+            metadata.schema.key3.should.equal("boolean");
+            metadata.schema.should.have.property("key4");
+            metadata.schema.key4.should.equal("undefined");
+            metadata.schema.should.have.property("key5");
+            metadata.schema.key5.should.equal("date");
+            metadata.schema.should.have.property("key6");
+            metadata.schema.key6.should.equal("array");
+            metadata.schema.should.have.property("key7");
+            metadata.schema.key7.should.equal("null");
         }).done();            
+    });
+});
+describe("arrays", function() {
+    it('should have valid metadata if they are 100% consistent', function(){
+        jmd.getMetadata(TEST_100_PERCENT_CONSISTENT_ARRAY).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.should.have.property("schema");
+            metadata.schema.should.not.be.empty;
+            metadata.schema.should.have.property("name");
+            metadata.schema.name.should.equal("string");
+            metadata.schema.should.have.property("age");
+            metadata.schema.age.should.equal("number");
+            metadata.should.have.property("meta");
+            metadata.meta.should.not.be.empty;
+            metadata.meta.should.have.property("consistency");
+            metadata.meta.consistency.should.not.be.empty;
+            metadata.meta.consistency.should.have.property("name");
+            metadata.meta.consistency.name.should.not.be.empty;
+            metadata.meta.consistency.name.should.have.property("keys");
+            metadata.meta.consistency.name.keys.should.not.be.empty;
+            metadata.meta.consistency.name.keys.should.have.property("count");
+            metadata.meta.consistency.name.keys.count.should.equal(TEST_100_PERCENT_CONSISTENT_ARRAY.length+" out of "+TEST_100_PERCENT_CONSISTENT_ARRAY.length);
+            metadata.meta.consistency.name.keys.should.have.property("consistency");
+            metadata.meta.consistency.name.keys.consistency.should.equal(1);
+            metadata.meta.consistency.name.should.have.property("types");
+            metadata.meta.consistency.name.types.should.not.be.empty;
+            metadata.meta.consistency.name.types.should.have.property("count");
+            metadata.meta.consistency.name.types.count.should.equal(TEST_100_PERCENT_CONSISTENT_ARRAY.length+" out of "+TEST_100_PERCENT_CONSISTENT_ARRAY.length);
+            metadata.meta.consistency.name.types.should.have.property("consistency");
+            metadata.meta.consistency.name.types.consistency.should.equal(1);
+            metadata.meta.consistency.should.have.property("age");
+            metadata.meta.consistency.age.should.not.be.empty;
+            metadata.meta.consistency.age.should.have.property("keys");
+            metadata.meta.consistency.age.keys.should.not.be.empty;
+            metadata.meta.consistency.age.keys.should.have.property("count");
+            metadata.meta.consistency.age.keys.count.should.equal(TEST_100_PERCENT_CONSISTENT_ARRAY.length+" out of "+TEST_100_PERCENT_CONSISTENT_ARRAY.length);
+            metadata.meta.consistency.age.keys.should.have.property("consistency");
+            metadata.meta.consistency.age.keys.consistency.should.equal(1);
+            metadata.meta.consistency.age.should.have.property("types");
+            metadata.meta.consistency.age.types.should.not.be.empty;
+            metadata.meta.consistency.age.types.should.have.property("count");
+            metadata.meta.consistency.age.types.count.should.equal(TEST_100_PERCENT_CONSISTENT_ARRAY.length+" out of "+TEST_100_PERCENT_CONSISTENT_ARRAY.length);
+            metadata.meta.consistency.age.types.should.have.property("consistency");
+            metadata.meta.consistency.age.types.consistency.should.equal(1);
+        }).done();            
+    });
+    it('should have valid metadata if they are key-inconsistent', function(){
+        jmd.getMetadata(TEST_KEY_INCONSISTENT_ARRAY).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.meta.should.have.property("consistency");
+            metadata.meta.consistency.should.not.be.empty;
+            metadata.meta.consistency.should.have.property("name");
+            metadata.meta.consistency.name.should.not.be.empty;
+            metadata.meta.consistency.name.should.have.property("keys");
+            metadata.meta.consistency.name.keys.should.not.be.empty;
+            metadata.meta.consistency.name.keys.should.have.property("count");
+            metadata.meta.consistency.name.keys.count.should.equal(TEST_KEY_INCONSISTENT_ARRAY.length-1+" out of "+TEST_KEY_INCONSISTENT_ARRAY.length);
+            metadata.meta.consistency.name.keys.should.have.property("consistency");
+            metadata.meta.consistency.name.keys.consistency.should.equal(0.6666666666666666);
+            metadata.meta.consistency.name.should.not.have.property("types");
+            metadata.meta.consistency.should.have.property("age");
+            metadata.meta.consistency.age.should.not.be.empty;
+            metadata.meta.consistency.age.should.have.property("keys");
+            metadata.meta.consistency.age.keys.should.not.be.empty;
+            metadata.meta.consistency.age.keys.should.have.property("count");
+            metadata.meta.consistency.age.keys.count.should.equal(TEST_KEY_INCONSISTENT_ARRAY.length+" out of "+TEST_KEY_INCONSISTENT_ARRAY.length);
+            metadata.meta.consistency.age.keys.should.have.property("consistency");
+            metadata.meta.consistency.age.keys.consistency.should.equal(1);
+            metadata.meta.consistency.age.should.have.property("types");
+            metadata.meta.consistency.age.types.should.not.be.empty;
+            metadata.meta.consistency.age.types.should.have.property("count");
+            metadata.meta.consistency.age.types.count.should.equal(TEST_KEY_INCONSISTENT_ARRAY.length+" out of "+TEST_KEY_INCONSISTENT_ARRAY.length);
+            metadata.meta.consistency.age.types.should.have.property("consistency");
+            metadata.meta.consistency.age.types.consistency.should.equal(1);
+        }).done();
+    });
+    it('should have valid metadata if they are type-inconsistent', function(){
+        jmd.getMetadata(TEST_TYPE_INCONSISTENT_ARRAY).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.meta.should.have.property("consistency");
+            metadata.meta.consistency.should.not.be.empty;
+            metadata.meta.consistency.should.have.property("name");
+            metadata.meta.consistency.name.should.not.be.empty;
+            metadata.meta.consistency.name.should.have.property("keys");
+            metadata.meta.consistency.name.keys.should.not.be.empty;
+            metadata.meta.consistency.name.keys.should.have.property("count");
+            metadata.meta.consistency.name.keys.count.should.equal(TEST_TYPE_INCONSISTENT_ARRAY.length+" out of "+TEST_TYPE_INCONSISTENT_ARRAY.length);
+            metadata.meta.consistency.name.keys.should.have.property("consistency");
+            metadata.meta.consistency.name.keys.consistency.should.equal(1);
+            metadata.meta.consistency.name.should.have.property("types");
+            metadata.meta.consistency.name.types.should.not.be.empty;
+            metadata.meta.consistency.name.types.should.have.property("count");
+            metadata.meta.consistency.name.types.count.should.equal(TEST_TYPE_INCONSISTENT_ARRAY.length+" out of "+TEST_TYPE_INCONSISTENT_ARRAY.length);
+            metadata.meta.consistency.name.types.should.have.property("consistency");
+            metadata.meta.consistency.name.types.consistency.should.equal(1);
+            metadata.meta.consistency.should.have.property("age");
+            metadata.meta.consistency.age.should.not.be.empty;
+            metadata.meta.consistency.age.should.have.property("keys");
+            metadata.meta.consistency.age.keys.should.not.be.empty;
+            metadata.meta.consistency.age.keys.should.have.property("count");
+            metadata.meta.consistency.age.keys.count.should.equal(TEST_TYPE_INCONSISTENT_ARRAY.length+" out of "+TEST_TYPE_INCONSISTENT_ARRAY.length);
+            metadata.meta.consistency.age.keys.should.have.property("consistency");
+            metadata.meta.consistency.age.keys.consistency.should.equal(1);
+            metadata.meta.consistency.age.should.have.property("types");
+            metadata.meta.consistency.age.types.should.not.be.empty;
+            metadata.meta.consistency.age.types.should.have.property("count");
+            metadata.meta.consistency.age.types.count.should.equal(TEST_TYPE_INCONSISTENT_ARRAY.length-1+" out of "+TEST_TYPE_INCONSISTENT_ARRAY.length);
+            metadata.meta.consistency.age.types.should.have.property("consistency");
+            metadata.meta.consistency.age.types.consistency.should.equal(0.6666666666666666);
+        }).done();
     });
 });
