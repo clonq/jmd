@@ -14,8 +14,7 @@ Given a simple hash:
 	key5: new Date(),
 	key6: [1,2,3],
 	key7: null
-}
-```
+}```
 
 jmd returns this metadata object:
 
