@@ -155,3 +155,57 @@ jmd.getMetadata("http://example.com/test.json").then(function(metadata){
 
 TODO
 
+### OPTIONS
+You can pass a secondary `options` parameter to `getMetadata`. The only option available at this time is `greedy`. If you set the greedy flag to true and the datasource is an array, jmd builds an extended schema that includes all available keys from all the elements in the array instead of picking only the common ones. Here's an example: let's say you want to extract the metadata from the following array:
+
+```
+var friends=[
+	{"firstname":"alice", "lastname":"adams", "age":23}, 
+	{"firstname":"bob", "lastname":"brown", "age":32}, 
+	{"firstname":"charlie", "age":"sixteen"},
+	{"name":"diane", "status":"online"}
+]
+```
+If you simply call 
+
+```
+jmd.getMetadata(friends).get('schema').then(console.log)
+```
+the output will be an empty object `{}` because not all the elements in the array share a common combination of key names and value types.
+
+If instead you pass in the greedy option:
+
+```
+jmd.getMetadata(friends,{greedy:true}).get('schema').then(console.log)
+```
+jmd will output:
+
+```
+{ firstname: 'string',
+  lastname: 'string',
+  age: 'number',
+  name: 'string',
+  status: 'string'
+}
+```
+An interesting thing to note is how jmd determines the type of the field `age`. Because jmd finds 2 records where age is a number and only one record where age is a string, jmd decides that age is a number. That's just a guess and the consistency data helps you estimate how good that guess was:
+
+```
+{
+    firstname: {
+        keys: { count: '3 out of 4', consistency: 0.75 }
+    },
+    lastname: {
+        keys: { count: '2 out of 4', consistency: 0.5 }
+    },
+    age: {
+        keys: { count: '3 out of 4', consistency: 0.75 }
+    },
+    name: {
+        keys: { count: '1 out of 4', consistency: 0.25 }
+    },
+    status: {
+        keys: { count: '1 out of 4', consistency: 0.25 }
+    }
+}
+```

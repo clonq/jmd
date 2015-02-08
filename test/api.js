@@ -8,6 +8,7 @@ var TEST_TYPE_INCONSISTENT_ARRAY = [{name:'alice',age:23}, {name:'bob',age:32}, 
 var TEST_FILENAME = "test/testdata1.json";
 var TEST_FILENAME_WITH_SCHEME = "file://test/testdata1.json";
 var TEST_HTTP = {URL: "http://ckannet-storage.commondatastorage.googleapis.com/2015-01-02T17:56:56.968Z/atoz.json", pathToArray:"AtoZ.sites.site"}
+var GREEDY_TEST_FILENAME = "test/greedytestdata.json";
 
 describe("hashes", function() {
     it('should have valid metadata', function(){
@@ -249,7 +250,6 @@ describe("HTTP JSON", function() {
     });
 });
 
-
 describe("shortcuts", function() {
     it('get schema', function(done){
         jmd.getMetadata(TEST_FILENAME).get("schema").then(function(schema){ 
@@ -272,3 +272,34 @@ describe("shortcuts", function() {
         }).done();
     });
 })
+
+describe("options", function() {
+    it('should return valid metadata for greedy:true', function(done){
+        jmd.getMetadata(GREEDY_TEST_FILENAME, {greedy:true}).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.should.have.property("schema");
+            metadata.schema.should.not.be.empty;
+            metadata.schema.should.have.property("firstname");
+            metadata.schema.firstname.should.equal("string");
+            metadata.schema.should.have.property("lastname");
+            metadata.schema.lastname.should.equal("string");
+            metadata.schema.should.have.property("name");
+            metadata.schema.name.should.equal("string");
+            metadata.schema.should.have.property("age");
+            metadata.schema.age.should.equal("number");
+            metadata.schema.should.have.property("status");
+            metadata.schema.status.should.equal("string");
+            done();
+        }).done();
+    });
+    it('should return valid metadata for greedy:false', function(done){
+        jmd.getMetadata(GREEDY_TEST_FILENAME, {greedy:false}).then(function(metadata){
+            should.exist(metadata);
+            metadata.should.not.be.empty;
+            metadata.should.have.property("schema");
+            metadata.schema.should.be.empty;
+            done();
+        }).done();
+    });
+});
