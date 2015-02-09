@@ -156,7 +156,10 @@ jmd.getMetadata("http://example.com/test.json").then(function(metadata){
 TODO
 
 ### OPTIONS
-You can pass a secondary `options` parameter to `getMetadata`. The only option available at this time is `greedy`. If you set the greedy flag to true and the datasource is an array, jmd builds an extended schema that includes all available keys from all the elements in the array instead of picking only the common ones. Here's an example: let's say you want to extract the metadata from the following array:
+You can pass a secondary `options` parameter to `getMetadata`. There two options available at this time: `greedy` and `path`.
+
+##### GREEDY
+If you set the greedy flag to true and the datasource is an array, jmd builds an extended schema that includes all available keys from all the elements in the array instead of picking only the common ones. Here's an example: let's say you want to extract the metadata from the following array:
 
 ```
 var friends=[
@@ -209,3 +212,27 @@ An interesting thing to note is how jmd determines the type of the field `age`. 
     }
 }
 ```
+##### PATH
+The `path` option is useful when the data collection for which we want to extract the schema is not at the root of the JSON document. For example:
+
+```
+{
+  "AtoZ": {
+    "sites": {
+      "site": [
+        {
+          "url": "http://www.sfsu.edu/~academic",
+          "name": "Academic Affairs"
+        },
+        {
+          "url": "http://air.sfsu.edu/ir",
+          "name": "Academic Institutional Research"
+        },
+        ...
+      ]
+    }
+  }
+}         
+```
+In this case, passing `path:AtoZ.sites.site` as an option to getMetadata tells jmd to extract the target collection from the `site` key. This will return the proper `{url:'string', name:'string'}` schema.
+
