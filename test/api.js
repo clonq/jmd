@@ -248,6 +248,21 @@ describe("HTTP JSON", function() {
             done();
         }).done();
     });
+    it('should have valid metadata', function(done){
+        jmd.getMetadata(TEST_HTTP.URL, {path:TEST_HTTP.pathToArray, greedy:true}).get("schema").then(function(schema){
+            should.exist(schema);
+            schema.should.not.be.empty;
+            schema.should.have.property("url");
+            schema.name.should.equal("string");
+            schema.should.have.property("name");
+            schema.name.should.equal("string");
+            schema.should.have.property("email");
+            schema.name.should.equal("string");
+            schema.should.have.property("phone");
+            schema.name.should.equal("string");
+            done();
+        }).done();
+    });
 });
 
 describe("shortcuts", function() {
