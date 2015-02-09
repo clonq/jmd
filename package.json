@@ -1,6 +1,6 @@
 {
   "name": "jmd",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "extracts metadata from json datasets",
   "scripts": {
     "test": "mocha --reporter spec"
