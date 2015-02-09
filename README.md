@@ -156,10 +156,10 @@ jmd.getMetadata("http://example.com/test.json").then(function(metadata){
 TODO
 
 ### OPTIONS
-You can pass a secondary `options` parameter to `getMetadata`. There two options available at this time: `greedy` and `path`.
+You can pass a second `options` parameter to `getMetadata`. There are two options available at this time: `greedy` and `path`.
 
 ##### GREEDY
-If you set the greedy flag to true and the datasource is an array, jmd builds an extended schema that includes all available keys from all the elements in the array instead of picking only the common ones. Here's an example: let's say you want to extract the metadata from the following array:
+If you set the greedy flag to true and the datasource is an array, jmd builds an extended schema that includes all available keys from all the elements in the array instead of picking only the common ones. Let's say you want to extract the metadata from the following array:
 
 ```
 var friends=[
@@ -174,9 +174,7 @@ If you simply call
 ```
 jmd.getMetadata(friends).get('schema').then(console.log)
 ```
-the output will be an empty object `{}` because not all the elements in the array share a common combination of key names and value types.
-
-If instead you pass in the greedy option:
+the output will be an empty object `{}` because not all the elements in the array share a common combination of key names and value types. If you set the greedy option:
 
 ```
 jmd.getMetadata(friends,{greedy:true}).get('schema').then(console.log)
@@ -191,7 +189,7 @@ jmd will output:
   status: 'string'
 }
 ```
-An interesting thing to note is how jmd determines the type of the field `age`. Because jmd finds 2 records where age is a number and only one record where age is a string, jmd decides that age is a number. That's just a guess and the consistency data helps you estimate how good that guess was:
+An interesting thing to note is how jmd determines the type of the field `age`. Because jmd finds 2 records where age is a number and only one record where age is a string, jmd decides that age is a number. That's just a guess and the consistency data should help you to estimate how good that guess was: (TODO output type consistency for greedy parsing)
 
 ```
 {
@@ -213,7 +211,7 @@ An interesting thing to note is how jmd determines the type of the field `age`. 
 }
 ```
 ##### PATH
-The `path` option is useful when the data collection for which we want to extract the schema is not at the root of the JSON document. For example:
+The `path` option is useful when the data collection for which we want the schema to be extracted is not at the root of the JSON document. For example:
 
 ```
 {
