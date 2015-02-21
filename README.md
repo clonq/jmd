@@ -1,6 +1,6 @@
 # jmd - JSON metadata
 
-jmd extracts metadata information from data sets in JSON format.
+jmd extracts metadata information from JSON datasets.
 
 ### Installation
 
