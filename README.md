@@ -4,7 +4,7 @@ jmd extracts metadata information from JSON datasets.
 
 ### Installation
 
-npm install jdm 
+npm install jmd 
 
 ### Usage
 
@@ -13,7 +13,7 @@ jmd takes a datasource as argument and returns a promise. The datasource can be 
 
 ```
 var jmd = require('jmd')
-jmd.getMetadata({ke1:"value1}).then(function(metadata){
+jmd.getMetadata({key1:"value1}).then(function(metadata){
 	// schema info available here 
 });
 ```
